@@ -1,7 +1,7 @@
 ''' Implementation of evaluation metrics for ML models - Recreating what scikit-learn does. '''
 
 import numpy as np
-from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 def accuracy(y_true: list, y_pred: list) -> float:
     '''
@@ -87,13 +87,27 @@ def precision(y_true: list, y_pred: list) -> int:
     precision = true_positives(y_true=y_true, y_pred=y_pred) / (true_positives(y_true=y_true, y_pred=y_pred) + false_positives(y_true=y_true, y_pred=y_pred))
     return precision
 
+def recall(y_true: list, y_pred: list) -> int:
+    '''
+    Función que calcula el recall. Recordar que el recall es el porcentaje de aciertos de 1's sobre todo el universo de 1's. 
+    Args:
+        y_true: Contiene la lista de valores reales o ground truth.
+        y_pred: Contiene los valores predichos por el modelo.
+    Returns:
+        Devuelve la cantidad la precision.
+    '''
+    assert len(y_true) == len(y_pred), "El largo de predicciones debe ser igual al largo ground truths"
+    precision = true_positives(y_true=y_true, y_pred=y_pred) / (true_positives(y_true=y_true, y_pred=y_pred) + false_negatives(y_true=y_true, y_pred=y_pred))
+    return precision
+
 
 if __name__ == '__main__':
 
-    y_true = [1, 1, 0, 0, 0, 0, 1, 0, 0]
+    y_true = [1, 1, 0, 0, 1, 0, 0, 0, 0]
     y_pred = [1, 1, 1, 1, 0, 0, 1, 0, 0]
     print('Accuracy calculado a mano:', accuracy(y_true=y_true, y_pred=y_pred))
     print('Accuracy calculado con scikit learn:', accuracy_score(y_true=y_true, y_pred=y_pred))
     print('Precision calculada a mano:', precision(y_true=y_true, y_pred=y_pred))
     print('Precision calculado con scikit learn:', precision_score(y_true=y_true, y_pred=y_pred))
-
+    print('Recall calculado a mano:', recall(y_true=y_true, y_pred=y_pred))
+    print('Recall calculado con scikit learn:', recall_score(y_true=y_true, y_pred=y_pred))
