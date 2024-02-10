@@ -167,6 +167,32 @@ def prc_df(y_true: list, y_pred: list):
                       )
     print(df.to_string())
 
+def trp(y_true: list, y_pred: list):
+    '''
+    Función que calcula el true positive rate que en realidad es nada más que el recall. También conocido como la sensitivity.
+    Args:
+        y_true: Contiene la lista de valores reales o ground truth.
+        y_pred: Contiene los valores predichos por el modelo.
+    Returns:
+        Devuelve el TPR.
+    '''
+
+    return recall(y_true, y_pred)
+
+def fpr(y_true: list, y_pred: list):
+    '''
+    Función que calcula el false positive rate.
+    Args:
+        y_true: Contiene la lista de valores reales o ground truth.
+        y_pred: Contiene los valores predichos por el modelo.
+    Returns:
+        Devuelve el FPR.
+    '''
+
+    fpr = false_positives(y_true, y_pred) / (false_positives(y_true, y_pred) + true_negatives(y_true, y_pred))
+
+    return fpr
+
 if __name__ == '__main__':
 
     y_true = [1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0]
@@ -185,5 +211,7 @@ if __name__ == '__main__':
     #prc_df(y_true=y_true, y_pred=y_pred_floats)
     print('F1 score calculado a mano:', f1(y_true, y_pred))
     print('F1 score calculado con scikit learn:', f1_score(y_true, y_pred))
+    print('tpr', trp(y_true, y_pred))
+    print('fpr', fpr(y_true, y_pred))
 
     
